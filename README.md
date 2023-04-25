@@ -29,3 +29,7 @@ The server side is written in Flask. It can be quickly run and accessible over t
 Packages do not have to be stored on the local server - they can be remote. However, one package (Python 3.1.1.1 for PowerPC) has been compiled and stored in `static` for demonstration purposes. Packages somewhat resemble `.deb` packages, and are expected to be compressed using the GZ format. They must contain a single folder named `tree`, which contains the file tree to be mirrored onto the client machine.
 
 Edit `config.json` before starting up the Flask server in order to configure what packages are available, what versions they are currently at, and what systems they support.
+
+![Minty](https://github.com/EHowardHill/Khap-Package-Manager/blob/main/promo/20230425_013024.jpg?raw=true)
+
+The Python 3.1.1 package was compiled in XCode 1.5 on this iMac G3, "Minty". The bash script for `khap` was also written on this machine as well.
