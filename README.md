@@ -14,6 +14,8 @@ For now, **bash is the only requirement client-side**. You will need Python 3 in
 
 ## Client Side
 
+`khap` must be run as the superuser.
+
 On the client side, the Mac will be able to manage new software via the command line. Two commands are supported for the time being:
 - `khap install XXX` will install a given package for your system.
 - `khap search XXX` will search your available repositories for software. Leaving it blank will return *all* available software for your system.
@@ -24,6 +26,6 @@ Repositories are stored in `/etc/khap.d/repos`. There are no active servers, so 
 
 The server side is written in Flask. It can be quickly run and accessible over the network in debug mode using the following command: `flask run --host=0.0.0.0`. Deployment and load balancing with a tool, such as NGINX, is recommended for a production environment.
 
-Packages do not have to be stored on the local server - they can be remote. However, one package (Python 3.1.1.1 for PowerPC) has been compiled and stored in `static` for demonstration purposes.
+Packages do not have to be stored on the local server - they can be remote. However, one package (Python 3.1.1.1 for PowerPC) has been compiled and stored in `static` for demonstration purposes. Packages somewhat resemble `.deb` packages, and are expected to be compressed using the GZ format. They must contain a single folder named `tree`, which contains the file tree to be mirrored onto the client machine.
 
 Edit `config.json` before starting up the Flask server in order to configure what packages are available, what versions they are currently at, and what systems they support.
