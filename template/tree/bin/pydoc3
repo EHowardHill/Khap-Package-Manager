@@ -1,0 +1,5 @@
+#!/Users/ethan/Desktop/Python-3.1.1/Khap/bin/python3.1
+
+import pydoc
+if __name__ == '__main__':
+    pydoc.cli()

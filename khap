@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+
+TAB=$'\t'
 
 if [ "$1" == "install" ]
 then
@@ -17,22 +20,53 @@ then
 	done < /etc/khap.d/repos
 
 	# Download and install
-	if [ "$LINK" != "" ]
-	then
-		rm -rf /etc/khap.d/temp
-		mkdir /etc/khap.d/temp
+	if [ "$LINK" != "" ]; then
+		mkdir -p /etc/khap.d/temp
+		rm -rf /etc/khap.d/temp/*
 		curl $LINK --output /etc/khap.d/temp.tgz
+		
+		echo "Unpacking..."
 		tar -xzf /etc/khap.d/temp.tgz -C /etc/khap.d/temp
+		rm /etc/khap.d/temp.tgz
+		NAME=""
+		VERS=""
+		while read pp; do
+			if [[ "${pp%% *}" == "name" ]]; then
+				NAME="${pp#* }"
+			fi
+			
+			if [[ "${pp%% *}" == "version" ]]; then
+				VERS="${pp#* }"
+			fi
+		done < /etc/khap.d/temp/meta
+		NAME="${NAME:0:$((${#NAME}-1))}"
+		
+		touch /etc/khap.d/versions
+		touch /etc/khap.d/versions.temp
+		while IFS= read -r line || [[ -n "$line" ]]; do
+			if [[ "${line%% *}" != "$NAME" && "${line%% *}" != "\t" && "${line%% *}" != "" ]]; then
+				echo "$line" >> /etc/khap.d/versions.temp
+			fi
+		done < /etc/khap.d/versions
+		
+		rm /etc/khap.d/versions
+		mv /etc/khap.d/versions.temp /etc/khap.d/versions
+		
+		echo "$NAME $VERS" >> /etc/khap.d/versions
+		
 		echo "Installing packages..."
-		time cp -r /etc/khap.d/temp/tree/* /
+		time cp -r /etc/khap.d/temp/tree/* /usr/local/
 		echo "$2 successfully installed"
 	else
 		echo "Error:	Package not found"
 	fi
 fi
 
-if [ "$1" == "search" ]
-then
+if [ "$1" == "version" ]; then
+	
+fi
+
+if [ "$1" == "search" ]; then
 
 	# Find valid link
 	LINK=""
@@ -44,4 +78,65 @@ then
 		fi
 	done < /etc/khap.d/repos
 
+fi
+
+if [ "$1" == "update" ]; then
+	
+	while read line; do
+		PACKAGE="${line%% *}"
+
+		# Find valid link
+		LINK=""
+		while read p; do
+			if [[ ${p:0:1} != "#" ]]
+			then
+				L=$(curl -s $p/?action=install\&info=$(uname)-$(uname -r)-$(uname -p)\&package=$PACKAGE)
+				if [[ ${L:0:4} == "http" ]]
+				then
+					LINK=$L
+				fi
+			fi
+		done < /etc/khap.d/repos
+		
+		# Download and install
+		if [ "$LINK" != "" ]; then
+			echo "Updating:	$PACKAGE"
+			mkdir -p /etc/khap.d/temp
+			rm -rf /etc/khap.d/temp/*
+			curl -s $LINK --output /etc/khap.d/temp.tgz
+		
+			tar -xzf /etc/khap.d/temp.tgz -C /etc/khap.d/temp
+			rm /etc/khap.d/temp.tgz
+			NAME=""
+			VERS=""
+			while read pp; do
+				if [[ "${pp%% *}" == "name" ]]; then
+					NAME="${pp#* }"
+				fi
+			
+				if [[ "${pp%% *}" == "version" ]]; then
+					VERS="${pp#* }"
+				fi
+			done < /etc/khap.d/temp/meta
+			NAME="${NAME:0:$((${#NAME}-1))}"
+		
+			touch /etc/khap.d/versions
+			touch /etc/khap.d/versions.temp
+			while IFS= read -r line || [[ -n "$line" ]]; do
+				if [[ "${line%% *}" != "$NAME" && "${line%% *}" != "\t" && "${line%% *}" != "" ]]; then
+					echo "$line" >> /etc/khap.d/versions.temp
+				fi
+			done < /etc/khap.d/versions
+		
+			rm /etc/khap.d/versions
+			mv /etc/khap.d/versions.temp /etc/khap.d/versions
+		
+			echo "$NAME $VERS" >> /etc/khap.d/versions
+		
+			cp -r /etc/khap.d/temp/tree/* /usr/local/
+		else
+			echo "Error:	$PACKAGE not found"
+		fi
+
+	done < /etc/khap.d/versions
 fi
