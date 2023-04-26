@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-image: url("{{ url_for('static', filename='argyle.jpg') }}");
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        table {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <img src="{{ url_for('static', filename='imac-trs01.gif') }}">
+            </td>
+            <td>
+                <img src="{{ url_for('static', filename='logo.png') }}">
+            </td>
+            <td style="width: 256px">
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>
+                    <ul>
+                        <li><a href="https://github.com/EHowardHill/Khap-Package-Manager">GitHub</a></li>
+                        <li><a href="https://macintoshgarden.org/">Macintosh Garden</a></li>
+                    </ul>
+                </p>
+            </td>
+            <td>
+                <p>
+                    To install on your Macintosh, <b>run the following command:</b><br>
+                </p>
+                <p>
+                    <tt>sudo /bin/bash -c "$(curl -s http://khap.com/static/install.sh)"</tt>
+                </p>
+                </p>
+                <hr>
+                <p>
+                <h1>What is Khap?</h1>
+                </p>
+                <p>
+                    Khap is designed to be a hypothetical, hyper-simple package manager for legacy Mac OS 10.3.9 and
+                    earlier systems. The goal is for it to be easy to setup and deploy software on aging hardware that
+                    cannot support MacPorts or Homebrew.
+                </p>
+                <p>
+                    This software is in the <b>proof of concept stage</b>. I'm not sure where I'll go with it, but it
+                    works for now. There is no setup script, as there are no publicly active servers as of right now.
+                </p>
+                <p>
+                    For now, bash is the only requirement client-side. You will need Python 3 in order to use the
+                    server-side application.
+                </p>
+                <hr>
+                <p>
+                <h1>How do I use it?</h1>
+                <p>
+                    khap must be run as the superuser.
+                </p>
+
+                <p>
+                    On the client side, the Mac will be able to manage new software via the command line. Two commands
+                    are supported for the time being:
+                </p>
+
+                <p>
+                <ul>
+                    <li><tt>khap update</tt> will update all installed packages on the system.</li>
+                    <li><tt>khap install XXX</tt> will install a given package for your system.</li>
+                    <li><tt>khap search XXX</tt> will search your available repositories for software. Leaving it blank
+                        will return all available software for your system.</li>
+                </ul>
+                </p>
+
+                <p>
+                    Repositories are stored in /etc/khap.d/repos.
+                </p>
+                <hr>
+                <center>
+                    <p>
+                        <span>&copy;</span>2023 "Cinemint" / Ethan Hill
+                    </p>
+                    <p>
+                        Send me a Discord message at Cinemint#6298
+                    </p>
+                </center>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

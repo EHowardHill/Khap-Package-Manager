@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from json import loads
 
 with open("config.json", "r") as f:
@@ -9,19 +9,24 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def primary():
 
-    action = request.args.get('action')
+    if "action" in request.args:
 
-    if action == "install":
-        package = request.args.get('package')
-        info = request.args.get('info')
-        return config[package]["binaries"][info]["link"]
-    
-    elif action == "search":
-        package = request.args.get('package')
-        info = request.args.get('info')
+        action = request.args.get('action')
 
-        packages = [
-            p + '\t' + config[p]["binaries"][info]["version"] for p in config.keys() if info in config[p]["binaries"].keys() and (package in p or p in package)
-        ]
+        if action == "install":
+            package = request.args.get('package')
+            info = request.args.get('info')
+            return config[package]["binaries"][info]["link"]
+        
+        elif action == "search":
+            package = request.args.get('package')
+            info = request.args.get('info')
 
-        return '\n'.join(packages)
+            packages = [
+                p + '\t' + config[p]["binaries"][info]["version"] for p in config.keys() if info in config[p]["binaries"].keys() and (package in p or p in package)
+            ]
+
+            return '\n'.join(packages)
+        
+    else:
+        return render_template("index.html")
