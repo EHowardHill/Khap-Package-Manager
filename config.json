@@ -4,7 +4,7 @@
         "binaries": {
             "Darwin-7.9.0-powerpc": {
                 "version": "3.1.1",
-                "link": "http://192.168.0.13:8000/static/python311-powerpc.tgz"
+                "link": "http://khap.live/packages/python311-powerpc.tgz"
             }
         }
     }

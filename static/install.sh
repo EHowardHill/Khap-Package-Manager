@@ -10,10 +10,10 @@ mkdir -p /etc/khap.d
 mkdir -p /etc/khap.d/temp
 mkdir -p /usr/local/bin
 
-curl http://206.255.16.66:8000/static/khap --output /usr/local/bin/khap
+curl http://khap.live/packages/khap --output /usr/local/bin/khap
 
 touch /etc/khap.d/versions
-echo "http://206.255.16.66:8000" > /etc/khap.d/repos
+echo "http://khap.live" > /etc/khap.d/repos
 
 echo ""
 echo "Khap has been installed to /usr/local/bin/khap"

@@ -1,15 +1,15 @@
 from flask import Flask, request, render_template
 from json import loads
 
-with open("config.json", "r") as f:
-    config = loads(''.join(f.readlines()))
-
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def primary():
 
     if "action" in request.args:
+
+        with open("/etc/khap-config.json", "r") as f:
+            config = loads(''.join(f.readlines()))
 
         action = request.args.get('action')
 
