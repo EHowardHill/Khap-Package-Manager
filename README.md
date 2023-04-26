@@ -12,6 +12,17 @@ For now, **bash is the only requirement client-side**. You will need Python 3 in
 `static` (can) contain binaries to serve.
 `promo` contains photos for this GitHub page.
 
+## Get started
+
+On your client Mac, run the following command:
+`sudo /bin/bash -c "$(curl -s http://206.255.16.66:8000/static/install.sh)"`
+
+If it looks similar to Homebrew's installation, it should!
+
+Keep in mind, this is **proof of concept** software, it still has a lot of polish and a long ways to go. Please let me know if you encounter any issues.
+
+If running `khap` does nothing, try running `/usr/local/bin/khap` instead. If the terminal complains that you don't have correct permissions to run, simply use the command `sudo chmod +x /usr/local/bin/khap`.
+
 ## Client Side
 
 `khap` must be run as the superuser.
@@ -19,6 +30,7 @@ For now, **bash is the only requirement client-side**. You will need Python 3 in
 On the client side, the Mac will be able to manage new software via the command line. Two commands are supported for the time being:
 - `khap install XXX` will install a given package for your system.
 - `khap search XXX` will search your available repositories for software. Leaving it blank will return *all* available software for your system.
+- `khap update` will update all installed packages on the system.
 
 Repositories are stored in `/etc/khap.d/repos`. There are no active servers, so this file must point to your local development machine's IP address and port number.
 
