@@ -14,6 +14,8 @@ curl http://khap.live/packages/khap --output /usr/local/bin/khap
 
 touch /etc/khap.d/versions
 echo "http://khap.live" > /etc/khap.d/repos
+echo "export PATH=$PATH:/usr/local/bin" >> ~/.bashrc
+export PATH=$PATH:/usr/local/bin
 
 echo ""
 echo "Khap has been installed to /usr/local/bin/khap"
